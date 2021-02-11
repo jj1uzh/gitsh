@@ -107,6 +107,10 @@ module Gitsh
       repo.status
     end
 
+    def repo_rebase_status
+      repo.rebase_status
+    end
+
     def repo_config_color(name, default)
       if color_override = fetch(name) { false }
         repo.color(color_override)

@@ -31,7 +31,7 @@ module Gitsh
       end
 
       def to_s
-        padded_prompt_format.gsub(/%[bBcdDgGw#]/) do |match|
+        padded_prompt_format.gsub(/%[bBcdDgGrw#]/) do |match|
           case match
           when "%b" then branch_name
           when "%B" then shortened_branch_name
@@ -40,6 +40,7 @@ module Gitsh
           when "%D" then File.basename(working_directory)
           when "%g" then git_command
           when "%G" then File.basename(git_command)
+          when "%r" then rebase_status
           when "%w" then clear_color
           when "%#" then terminator
           end
@@ -120,6 +121,10 @@ module Gitsh
 
       def repo_status
         @repo_status ||= env.repo_status
+      end
+
+      def rebase_status
+        @repo_rebase_status ||= env.repo_rebase_status
       end
     end
   end
