@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'bundler'
+require 'fileutils'
 
 unless ARGV.length == 1
   $stderr.puts "usage: vendorize path-to-gems"
