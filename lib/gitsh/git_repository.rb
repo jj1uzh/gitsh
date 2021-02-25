@@ -101,6 +101,28 @@ module Gitsh
       git_output('merge-base %s %s' % escaped_commits)
     end
 
+    def rebase_status
+      def gitdir(path) File.join(git_dir, path) end
+
+      if Dir.exist? gitdir("rebase-merge")
+        "REBASE"
+      else
+        if Dir.exist? gitdir("rebase-apply")
+          if File.exist? gitdir("rebase-apply/rebasing")
+            "REBASE"
+          elsif File.exist? gitdir("rebase-apply/applying")
+            "AM"
+          else
+            "AM/REBASE"
+          end
+        elsif File.exist? gitdir("MERGE_HEAD")
+          "MERGING"
+        elsif File.exist? gitdir("BISECT_LOG")
+          "BISECTING"
+        end
+      end
+    end
+
     private
 
     attr_reader :env, :status_factory
